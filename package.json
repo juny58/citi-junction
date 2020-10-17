@@ -32,7 +32,7 @@
     "com.razorpay.cordova": "git+https://github.com/razorpay/razorpay-cordova.git",
     "cordova-android": "8.1.0",
     "core-js": "^2.5.4",
-    "rxjs": "~6.5.1",
+    "rxjs": "~6.6.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.10.3"
   },
