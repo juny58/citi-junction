@@ -18,8 +18,8 @@ import algoliasearch from 'algoliasearch';
 export class RestaurantsPage implements OnInit {
 
   shouldShowSearchbar: boolean
-  @ViewChild('searchbar', { static: false }) ionSearchbar: IonSearchbar;
-  @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild('searchbar') ionSearchbar: IonSearchbar;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonContent, { static: true }) ionContent: IonContent
 
   categories: string[] = []
