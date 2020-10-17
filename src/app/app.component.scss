@@ -1,0 +1,63 @@
+.header-icons {
+    font-size: 20px;
+    cursor: pointer;
+}
+.get-playstore-top {
+    width: 150px;
+    margin-right: 20px
+}
+.get-playstore-right {
+    //transform: rotate(90deg);
+}
+.logo {
+    width: 50px;
+    margin: 0 16px 0 40px;
+}
+.cj-name {
+    font-size: 17px;
+    // text-transform: uppercase;
+    // font-weight: bold;
+    // font-family: cursive;
+}
+.cj-tag {
+    font-size: 14px;
+}
+.tag {
+    text-transform: capitalize;
+    font-size: 13.5px;
+}
+.big-header-search-bar {
+    max-width: 350px;
+    padding-bottom: 0 !important
+}
+.smaller-web-title {
+    text-align: center;
+    width: 80px;
+}
+@media(max-width: 1068px) {
+    .big-header-search-bar {
+        max-width: calc(100% - 685px) !important;
+    }
+}
+@media(max-width: 992px) {
+    .big-header-search-bar {
+        max-width: calc(100% - 480px) !important;
+    }
+}
+#right-nav {
+    width: 50px;
+    height: calc(100% - 56px);
+    border-right: 1px solid #ccc;
+    background: #eee;
+    padding-top: 25px;
+}
+.right-nav-icon {
+    width: 50px;
+    height: 50px;
+}
+ion-app.big-screen {
+    width: calc(100% - 50px);
+    height: calc(100% - 56px);
+    left: 50px;
+    top: 56px
+}

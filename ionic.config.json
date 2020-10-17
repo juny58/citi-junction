@@ -1,5 +1,7 @@
 {
   "name": "city-junction",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

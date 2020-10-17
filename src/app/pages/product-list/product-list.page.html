@@ -1,0 +1,22 @@
+<ion-header *ngIf="widthService.screenWidth < 768" class="page-header">
+  <ion-toolbar color=light>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref='/app/home'></ion-back-button>
+    </ion-buttons>
+    <img slot=start class="small-logo no-ion-margin-left" src="assets/cj.png" alt="">
+    <ion-searchbar [(ngModel)]="searchService.term" (ionChange)="searchTyped($event.target.value)"
+      class="ion-text-center small-header-search" mode=ios slot="end">
+    </ion-searchbar>
+    
+    <ion-buttons slot=end>
+      <ion-button>
+        <ion-icon slot="icon-only" color=danger class="cart-icon" name="cart"></ion-icon>
+        <span class="cart-count">2</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>

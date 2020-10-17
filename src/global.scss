@@ -24,3 +24,76 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    font-family: 'Poppins';
+}
+.normal-font {
+    font-size: unset;
+}
+.large-font {
+    font-size: large !important;
+}
+.small-font {
+    font-size: small !important;
+}
+.align-icon {
+    vertical-align: middle;
+}
+.no-display {
+    display: none;
+}
+.hover-cursor {
+    cursor: pointer;
+}
+.no-ion-margin-top {
+    margin-top: 0 !important;
+}
+.no-ion-margin-right {
+    margin-right: 0 !important;
+}
+.no-ion-margin-bottom {
+    margin-bottom: 0 !important;
+}
+.no-ion-margin-left {
+    margin-left: 0 !important;
+}
+.small-logo {
+    width: 40px;
+    margin: auto 16px;
+}
+.small-header-search.ios {
+    padding: 0 !important
+}
+.cart-icon {
+    // font-size: 26px;
+}
+.position-relative {
+    position: relative;
+}
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 18px;
+}
+.cart-icon-container {
+    padding: 10px;
+    border-radius: 50%;
+    margin: auto 0;
+}
+.page-menu-icons {
+    font-size: 44px
+}
+.info-icon {
+    font-size: 25px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+ion-button {
+    text-transform: capitalize;
+}

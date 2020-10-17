@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "the-city-junction"
+  },
+  "targets": {
+    "the-city-junction": {
+      "hosting": {
+        "main": [
+          "the-city-junction"
+        ]
+      }
+    }
+  }
+}

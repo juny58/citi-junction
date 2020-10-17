@@ -1,0 +1,49 @@
+<ion-header class="ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeCheckout()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+        <span *ngIf="!restaurantService.cartItemCount">Back</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="restaurantService.cartItemCount">Ordering From: {{restaurantService.orderDetail.restaurant.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light" scrollEvents="true" (ionScroll)="contentScrolling($event)">
+  <ion-slides [options]="slideOptions">
+    <ion-slide>
+      <app-cart-select-address (selectedAddress)="selectAddress($event)"
+        [restaurantCoordinates]="restaurantService.orderDetail.restaurant.coordinates"></app-cart-select-address>
+    </ion-slide>
+    <ion-slide>
+      <app-cart-details (setCartAmount)="setCartAmount($event)" (addressChangeEvent)="changeAddress()"
+        [address]="currentAddress"></app-cart-details>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer *ngIf="restaurantService.cartItemCount">
+  <ion-toolbar [hidden]="slideIndex != 0"
+    [color]="currentAddress.distanceInKm <= initializeService.initializeParams.restaurant.delivery.allowedDistance ? 'mat-blue' : 'light'">
+    <ion-textarea autofocus="true" [(ngModel)]="currentAddress.details"></ion-textarea>
+    <div *ngIf="currentAddress.distanceInKm != null || currentAddress.distanceInKm != undefined">
+      <div class="ion-text-end ion-padding"
+        *ngIf="currentAddress.distanceInKm <= initializeService.initializeParams.restaurant.delivery.allowedDistance"
+        (click)="payAndOrder()">
+        Choose Address <ion-icon class="align-icon" name="arrow-forward"></ion-icon>
+      </div>
+      <div class="ion-padding small-font"
+        *ngIf="currentAddress.distanceInKm > initializeService.initializeParams.restaurant.delivery.allowedDistance">
+        <ion-text color="danger">Delivery not possible in case of selected address farther than
+          {{initializeService.initializeParams.restaurant.delivery.allowedDistance}}KM from
+          restaurant.
+        </ion-text>
+      </div>
+    </div>
+  </ion-toolbar>
+  <ion-toolbar [hidden]="slideIndex != 1" color="mat-blue">
+    <ion-title>Pay & Order</ion-title>
+    <ion-button (click)="payAndConfirm()" class="ion-margin-end" color='light' slot="end">Confirm</ion-button>
+  </ion-toolbar>
+</ion-footer>

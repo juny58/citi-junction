@@ -1,0 +1,22 @@
+<ion-tabs (ionTabsWillChange)="tabsChange($event)">
+
+  <ion-tab-bar [hidden]="currentWindowWidth >= 768" slot="bottom">
+
+    <ion-tab-button [disabled]="!tab.available" *ngFor="let tab of tabs" [tab]="tab.route">
+      <ion-icon color='danger' [hidden]="!tab.isActive" [name]="tab.icon"></ion-icon>
+      <ion-icon color='danger' [hidden]="tab.isActive" [name]="tab.icon + '-outline'"></ion-icon>
+      <ion-label [color]="tab.isActive ? 'danger': 'dark'">{{tab.name}}</ion-label>
+    </ion-tab-button>
+    
+  </ion-tab-bar>
+
+  <ion-footer [hidden]="currentWindowWidth < 768">
+    <div class="pt-1 pb-1 pl-2 pr-2 ion-text-center small-font">
+      <ion-text>© Citi Junction 2020</ion-text>
+      <ion-text class="ml-3">|</ion-text>
+      <ion-text routerLink="/privacy-policy" color="danger" class="ml-3 hover-cursor">Privacy Policy</ion-text>
+      <ion-text routerLink="/terms-condition" color="danger" class="ml-3 hover-cursor">T&C</ion-text>
+    </div>
+  </ion-footer>
+
+</ion-tabs>

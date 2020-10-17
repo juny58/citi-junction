@@ -1,0 +1,40 @@
+<ion-header *ngIf="widthService.screenWidth < 768" class="page-header">
+  <ion-toolbar color=light>
+    <img slot=start class="small-logo" src="assets/cj.png" alt="">
+    <!-- <ion-searchbar mode=ios [(ngModel)]="searchService.term" (ionChange)="searchTyped($event.target.value)"
+      class="ion-text-center small-header-search" slot="end">
+    </ion-searchbar>
+    <ion-buttons slot=end>
+      <ion-button>
+        <ion-icon slot="icon-only" color=danger class="cart-icon" name="cart"></ion-icon>
+        <span class="cart-count">2</span>
+      </ion-button>
+    </ion-buttons> -->
+    <ion-title>
+      <div>Welcome To Citi Junction</div>
+      <div class="small-font">
+        <ion-text color="danger">Baruipur</ion-text>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light" scrollbar class="ion-padding">
+  <ion-grid appCon class="ion-text-center">
+    <ion-row>
+      <ion-col *ngFor="let item of menuItems" sizeXs="6" sizeSm="4" sizeMd=4 size-lg=3 sizeXl=2.4>
+        <ion-card [class.ion-no-margin]="width < 576" [routerLink]="item.active ? item.path : '.'" class="item-card ion-padding">
+          <ion-icon (click)="$event.preventDefault(); $event.stopPropagation()" [matTooltip]="item.info"
+            aria-label="Button that displays a tooltip when focused or hovered over" color=success *ngIf="item.info"
+            name="information-circle" class="info-icon">
+          </ion-icon>
+          <ion-icon class="page-menu-icons" [src]="item.icon" alt=""></ion-icon>
+          <div class="ion-margin-top">
+            {{item.name}}
+          </div>
+          <div *ngIf="!item.active" class="inactive-curtain"></div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

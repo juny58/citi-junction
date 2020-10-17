@@ -1,0 +1,21 @@
+ion-header::after {
+    display: none;
+}
+.restaurant-name {
+    border-bottom: 1px dashed #666;
+    line-height: 20px;
+}
+.restaurant-categories {
+    overflow: auto;
+    white-space: nowrap;
+}
+.add-border::after {
+    //border-bottom: 1px dashed #666;
+    display: unset;
+}
+.restaurant-categories::-webkit-scrollbar {
+    display: none !important;
+}
+.cuisine-img {
+    --border-radius: 5px;
+}

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color=women>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/home"></ion-back-button>
+    </ion-buttons>
+    <img class="small-logo no-ion-margin-left" slot=start src="assets/cj.png" alt="">
+    <ion-searchbar color=light mode=ios [(ngModel)]="searchService.term" (ionChange)="searchTyped($event.target.value)"
+      class="ion-text-center small-header-search" slot="end">
+    </ion-searchbar>
+    <div class="ion-activatable position-relative cart-icon-container" slot=end>
+      <ion-ripple-effect></ion-ripple-effect>
+      <ion-icon color=dark class="cart-icon" name="cart"></ion-icon>
+      <span class="cart-count">
+        2
+      </span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>

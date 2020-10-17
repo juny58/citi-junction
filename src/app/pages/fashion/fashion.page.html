@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color=mat-blue>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/home"></ion-back-button>
+    </ion-buttons>
+    <img class="small-logo no-ion-margin-left" slot=start src="assets/cj.png" alt="">
+    <ion-searchbar color=light mode=ios [(ngModel)]="searchService.term" (ionChange)="searchTyped($event.target.value)"
+      class="ion-text-center small-header-search" slot="end">
+    </ion-searchbar>
+    
+    <ion-buttons slot=end>
+      <ion-button>
+        <ion-icon slot="icon-only" color=danger class="cart-icon" name="cart"></ion-icon>
+        <span class="cart-count">2</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color=light>
+  <ion-grid>
+    <ion-row>
+      <ion-col [routerLink]="'/fashion/'+ category.param" class="ion-text-center" *ngFor="let category of categories" sizeXs="6" sizeSm="4" sizeMd=4 size-lg=3 sizeXl=2.4>
+        <ion-card class="ion-no-margin ion-padding">
+          <ion-icon class="page-menu-icons" [src]="category.icon"></ion-icon>
+          <div class="ion-margin-top">
+            {{category.title}}
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

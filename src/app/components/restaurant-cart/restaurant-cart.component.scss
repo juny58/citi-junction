@@ -1,0 +1,19 @@
+ion-header::after {
+    display: none;
+}
+ion-header {
+    border-bottom: 1px solid #dfdfdf;
+}
+.swiper-slide {
+    display: block;
+}
+ion-slides {
+    height: 100%;
+}
+ion-title {
+    font-size: 16px;
+}
+ion-textarea {
+    --background: #ffffff;
+    --color: #444444;
+}

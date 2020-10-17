@@ -1,0 +1,61 @@
+<!-- <ion-header *ngIf="widthService.screenWidth < 768" class="page-header">
+  <ion-toolbar color="light" [hidden]="shouldShowSearchbar"> -->
+<ion-header class="page-header" [ngClass]="{'add-border': scrollTop >= 54}">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref='/restaurants'></ion-back-button>
+    </ion-buttons>
+    <img slot=start class="small-logo no-ion-margin-left" src="assets/cj.png" alt="">
+
+    <ion-title class="normal-font" [hidden]="scrollTop < 53">{{restaurant?.title}}</ion-title>
+
+    <ion-buttons slot=end>
+      <ion-button (click)="showSearchbar()">
+        <ion-icon name="search" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="openCart()">
+        <ion-icon slot="icon-only" color=danger class="cart-icon" src="assets/images/plate.svg"></ion-icon>
+        <span class="cart-count">{{restaurantService.cartItemCount || ''}}</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" color="light" (ionScroll)="contentScrolling($event)">
+  <div class="pt-2 pb-1 ion-padding-start ion-padding-end restaurant-name bg-white">
+    <b class="large-font">
+      {{restaurant?.title}}
+    </b>
+    <div class="restaurant-categories">
+      <ion-text *ngFor="let category of restaurant?.categoriesServed; let i = index" color="medium" class="small-font">
+        <span *ngIf="i">, </span>{{category}}</ion-text>
+    </div>
+  </div>
+  
+  <ng-container *ngIf="cuisinesLoaded">
+    <ion-list lines="none" class="restaurant-sections bg-white mt-2" *ngFor="let section of restaurant?.sections">
+      <b class="ion-padding start">{{section.name}}</b>
+      <ion-item *ngFor="let cuisine of cuisines[section._id]">
+        <ion-label class="ion-text-wrap">
+          <div>{{cuisine.title}}</div>
+          <div>
+            <ion-text color="medium" class="small-font">{{currency + cuisine.price}}</ion-text>
+          </div>
+        </ion-label>
+        <!-- <ion-thumbnail class="cuisine-img shadow-sm" slot="end">
+          <ion-img [src]="cuisine.img"></ion-img>
+        </ion-thumbnail> -->
+        <div style="width: 80px" slot="end">
+          <ion-button (click)="addFoodToOrder(cuisine)" expand='full' color="white">
+            <ion-text color="success">Add</ion-text>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container *ngIf="!cuisinesLoaded">
+    <app-skeleton-text></app-skeleton-text>
+  </ng-container>
+
+</ion-content>

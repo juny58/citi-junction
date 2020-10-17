@@ -1,3 +1,32 @@
-<ion-app>
+<ion-header *ngIf="width >= 768">
+  <ion-toolbar color="light">
+    <img slot=start class="logo" src="assets/cj.png" alt="">
+    <div slot="start" [class.smaller-web-title]="width <= 992">
+      <ion-text color=dark class="cj-name">City Junction</ion-text>
+      <br>
+      <ion-text [hidden]="width <= 992" color=kola-pata class="tag">One stop solution for all</ion-text>
+    </div>
+    <div slot="start" style="margin-left: 45px">
+      <ion-icon color="danger" style="font-size: 25px" class="align-icon" name="location"></ion-icon>&nbsp; Baruipur
+    </div>
+    <ion-searchbar [(ngModel)]="searchService.term" (ionChange)="searchTyped($event.target.value)" mode=ios slot="end" class="ion-text-center ion-margin-end big-header-search-bar"></ion-searchbar>
+    <ion-button color=tertiary style="text-transform: capitalize;" slot="end" class="ion-margin-end">
+      <ion-icon class="header-icons" name="language"></ion-icon>
+    </ion-button>
+
+    <img [hidden]="width <= 992" slot=end (click)="downloadApp()" class="get-playstore-top hover-cursor" src="assets/get_playstore.png" alt="">
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-app [class.big-screen]="width >= 768">
   <ion-router-outlet></ion-router-outlet>
 </ion-app>
+
+<div *ngIf="width >= 768" id="right-nav">
+  <div class="right-nav-icon" (click)="icon.fn()" *ngFor="let icon of headerIcons">
+    <ion-icon [hidden]="routerService.currentAbsoluteRoute == icon.path" [matTooltip]="icon.title" class="header-icons ion-padding-start ion-padding-end" [name]="icon.name + '-outline'"></ion-icon>
+    <ion-icon [hidden]="routerService.currentAbsoluteRoute != icon.path" [matTooltip]="icon.title" class="header-icons ion-padding-start ion-padding-end" [name]="icon.name"></ion-icon>
+  </div>
+  <img [hidden]="width > 992" slot=end (click)="downloadApp()" class="get-playstore-top hover-cursor" src="assets/playstore_sqr.png" alt="">
+</div>

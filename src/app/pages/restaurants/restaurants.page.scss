@@ -1,0 +1,38 @@
+.restaurant-cart-icon {
+    font-size: 26px;
+    vertical-align: middle;
+}
+ion-searchbar {
+    padding-bottom: 0 !important;
+}
+.food-categories {
+    border-radius: 5px;
+}
+ion-slide {
+    display: block;
+}
+.category-highlighter {
+    border-radius: 50%;
+    background: var(--ion-color-success);
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-6px);
+    font-size: 12px;
+    padding: 1px;
+}
+.restaurant-img {
+    width: 20%;
+    border-radius: 3px;
+}
+.retaurant-detail-text {
+    line-height: 19px;
+}
+.restaurant-categories {
+    white-space: normal;
+}
+.restaurant-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

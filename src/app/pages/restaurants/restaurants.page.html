@@ -1,0 +1,100 @@
+<ion-header *ngIf="widthService.screenWidth < 768" class="page-header">
+  <ion-toolbar color="light" [hidden]="shouldShowSearchbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref='/app/home'></ion-back-button>
+    </ion-buttons>
+    <img slot=start class="small-logo no-ion-margin-left" src="assets/cj.png" alt="">
+
+    <ion-buttons slot=end>
+      <ion-button (click)="showSearchbar()">
+        <ion-icon name="search" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="openCart()">
+        <ion-icon slot="icon-only" color=danger class="cart-icon" src="assets/images/plate.svg"></ion-icon>
+        <span class="cart-count">{{restaurantService.cartItemCount || ''}}</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar [hidden]="!shouldShowSearchbar">
+    <ion-searchbar placeholder="Search for a dish or restaurant" #searchbar (ionBlur)="removeSearchbar(false)"
+      (ionChange)="searchTyped($event.target.value)" mode='ios'>
+    </ion-searchbar>
+
+    <!-- <ion-button fill='clear' color='dark' slot="end" (click)="showSearchbar()">
+      <ion-icon name="close" slot="icon-only"></ion-icon>
+    </ion-button> -->
+  </ion-toolbar>
+</ion-header>
+
+<div class="ion-padding bg-white">
+  <div class="mb-2">
+    <b class="large-font">Category</b>: <ion-text color="medium">{{selectedCategory}}</ion-text>
+  </div>
+  <ion-slides class="shadow-sm bg-light food-categories p-2" [options]="slideOptions">
+    <ion-slide *ngFor="let category of categories">
+      <div>
+        <img (click)="selectCategory(category)" src="assets/restaurants/food-categories/{{category}}.png" alt="">
+      </div>
+      <!-- <div>
+        <ion-text>{{category}}</ion-text>
+      </div> -->
+      <ion-icon name="checkmark" color="light" class="category-highlighter" [hidden]="selectedCategory != category">
+      </ion-icon>
+    </ion-slide>
+  </ion-slides>
+</div>
+
+<ion-content class="bg-white">
+
+  <app-skeleton-text *ngIf="!restaurants.length && isLoading"></app-skeleton-text>
+
+  <h3 class="ion-text-center ion-padding mt-2" *ngIf="!restaurants.length && !isLoading">
+    No Restaurants Found.
+  </h3>
+
+  <div class="ion-padding mt-2" *ngIf="restaurants.length">
+    <div class="mb-2">
+      <b class="large-font">Top Restaurants</b>
+    </div>
+
+    <ion-list class="ion-no-padding" lines='none'>
+      <ion-item (click)="setRestaurantForDetailPage(restaurant)" [routerLink]="'/restaurant-detail/' + restaurant._id"
+        class="ion-no-padding pb-2" *ngFor="let restaurant of restaurants">
+        <img class="restaurant-img mr-3 shadow-sm" [src]="restaurant.img">
+        <ion-label>
+          <div class="restaurant-title retaurant-detail-text">
+            {{restaurant.title}}
+          </div>
+          <div class="retaurant-detail-text restaurant-categories">
+            <ion-text class="small-font" color="medium"
+              *ngFor="let categoryServed of restaurant.categoriesServed; let i = index"><span *ngIf="i > 0">,</span>
+              {{categoryServed}}</ion-text>
+          </div>
+          <div class="retaurant-detail-text">
+            <ng-container *ngIf="restaurant.rating">
+              <ion-icon class="align-icon mr-1" name="star" color="warning"></ion-icon>
+              <ion-text class="small-font" color="medium">
+                {{restaurant.rating}}
+              </ion-text>
+            </ng-container>
+
+            <ng-container *ngIf="!restaurant.rating">
+              <ion-icon class="align-icon mr-1" name="star-outline" color="medium"></ion-icon>
+              <ion-text class="small-font" color="medium">
+                No rating
+              </ion-text>
+            </ng-container>
+            <span> | </span>
+            <ion-text class="small-font">{{currency + restaurant.estimationForTwo}} For two</ion-text>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="loadMoreData($event)">
+    <ion-infinite-scroll-content loadingText="Loading...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
