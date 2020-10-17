@@ -14,7 +14,7 @@ export class RestaurantCartComponent implements OnInit, AfterViewInit {
 
   scrollTop: number;
   slideOptions = {}
-  @ViewChild(IonSlides, { static: false }) ionSlides: IonSlides
+  @ViewChild(IonSlides) ionSlides: IonSlides
 
   currentAddress: EmittingAddress = {
     details: null,
