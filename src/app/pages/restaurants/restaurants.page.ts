@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 import { RestaurantDetailService } from '../restaurant-detail/restaurant-detail.service';
 import { RestaurantCartComponent } from 'src/app/components/restaurant-cart/restaurant-cart.component';
 import { InitializeService } from 'src/app/services/initialize/initialize.service';
-import algoliasearch from 'algoliasearch';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-restaurants',
@@ -17,8 +17,6 @@ import algoliasearch from 'algoliasearch';
 })
 export class RestaurantsPage implements OnInit {
 
-  shouldShowSearchbar: boolean
-  @ViewChild('searchbar') ionSearchbar: IonSearchbar;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonContent, { static: true }) ionContent: IonContent
 
@@ -35,31 +33,12 @@ export class RestaurantsPage implements OnInit {
   apiParams: any = {
     limit: 10
   }
-  client = algoliasearch(environment.algolia.appId, environment.algolia.apiKey);
-  index = this.client.initIndex('cuisines')
 
-  constructor(private initializeService: InitializeService, private modalController: ModalController, public restaurantDetailService: RestaurantDetailService, public widthService: WidthService, public searchService: SearchService, public restaurantService: RestaurantsService) { }
+  constructor(private authService: AuthService, private initializeService: InitializeService, private modalController: ModalController, public restaurantDetailService: RestaurantDetailService, public widthService: WidthService, public searchService: SearchService, public restaurantService: RestaurantsService) { }
 
   ngOnInit() {
     this.getCategories()
     this.getRestaurants()
-  }
-
-  showSearchbar() {
-    this.shouldShowSearchbar = true
-    setTimeout(() => {
-      this.ionSearchbar.setFocus()
-    }, 300);
-  }
-
-  removeSearchbar(bool: boolean) {
-    this.shouldShowSearchbar = bool
-  }
-
-  searchTyped(searchTerm: string) { 
-    this.index.search(searchTerm).then(res=>{
-      console.log(res.hits)
-    })
   }
 
   getCategories() {
@@ -105,7 +84,7 @@ export class RestaurantsPage implements OnInit {
   }
 
   async openCart() {
-    if (this.restaurantService.orderDetail.cuisines.length && this.initializeService.initializeParams) {
+    if (this.authService.user.name && this.restaurantService.orderDetail.cuisines.length && this.initializeService.initializeParams) {
       let modal = await this.modalController.create({
         component: RestaurantCartComponent
       })

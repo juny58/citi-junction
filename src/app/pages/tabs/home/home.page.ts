@@ -73,7 +73,7 @@ export class HomePage implements OnInit {
       icon: "assets/home-icons/bed.svg"
     },
     {
-      name: "Book Toto",
+      name: "Book A Car",
       active: false,
       path: "",
       icon: "assets/home-icons/car.svg",

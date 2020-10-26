@@ -10,7 +10,7 @@
     <ion-title class="normal-font" [hidden]="scrollTop < 53">{{restaurant?.title}}</ion-title>
 
     <ion-buttons slot=end>
-      <ion-button (click)="showSearchbar()">
+      <ion-button routerLink="/cuisine-search">
         <ion-icon name="search" slot="icon-only"></ion-icon>
       </ion-button>
       <ion-button (click)="openCart()">
@@ -31,7 +31,7 @@
         <span *ngIf="i">, </span>{{category}}</ion-text>
     </div>
   </div>
-  
+
   <ng-container *ngIf="cuisinesLoaded">
     <ion-list lines="none" class="restaurant-sections bg-white mt-2" *ngFor="let section of restaurant?.sections">
       <b class="ion-padding start">{{section.name}}</b>
@@ -45,11 +45,7 @@
         <!-- <ion-thumbnail class="cuisine-img shadow-sm" slot="end">
           <ion-img [src]="cuisine.img"></ion-img>
         </ion-thumbnail> -->
-        <div style="width: 80px" slot="end">
-          <ion-button (click)="addFoodToOrder(cuisine)" expand='full' color="white">
-            <ion-text color="success">Add</ion-text>
-          </ion-button>
-        </div>
+        <ion-button [disabled]="!cuisine.isRestaurantOpen" (click)="addFoodToOrder(cuisine)" color="mat-blue">Add</ion-button>
       </ion-item>
     </ion-list>
   </ng-container>

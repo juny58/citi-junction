@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RestaurantsService } from 'src/app/pages/restaurants/restaurants.service';
+import { FoodOrderDetailInterface } from 'src/app/pages/tabs/orders/orders.interface';
 import { InitializeService } from 'src/app/services/initialize/initialize.service';
 import { environment } from 'src/environments/environment';
 import { EmittingAddress } from '../cart-select-address/cart-select-address.component';
@@ -15,15 +16,17 @@ export class CartDetailsComponent implements OnInit {
   itemsPrice = 0
   deliveryCharge = 0
   totalPrice = 0
+  cartParams: CartParams = {}
   @Input() address: EmittingAddress
   @Output() addressChangeEvent: EventEmitter<void> = new EventEmitter()
-  @Output() setCartAmount = new EventEmitter()
+  @Output() setCartParams: EventEmitter<CartParams> = new EventEmitter()
 
   constructor(public restaurantService: RestaurantsService, public initializeService: InitializeService) { }
 
   ngOnInit() {
     this.getTotalPrice()
     this.deliveryCharge = Number(this.initializeService.initializeParams.restaurant.delivery.costPerKm)
+    this.cartParams.orderDetail = this.restaurantService.orderDetail
   }
 
   modifyQuantity(n: number, item) {
@@ -38,6 +41,7 @@ export class CartDetailsComponent implements OnInit {
       this.restaurantService.orderDetail.cuisines[i].items += n
     }
     this.restaurantService.updateCart(n)
+    this.cartParams.orderDetail = this.restaurantService.orderDetail
     this.getTotalPrice()
   }
 
@@ -46,6 +50,8 @@ export class CartDetailsComponent implements OnInit {
     this.restaurantService.orderDetail.cuisines.forEach(c => {
       this.itemsPrice += c.items * c.price
     })
+    this.cartParams.cartAmount = this.itemsPrice
+    this.setCartParams.emit(this.cartParams)
   }
 
   changeAddress() {
@@ -54,15 +60,27 @@ export class CartDetailsComponent implements OnInit {
 
   getDeliveryCharge() {
     if (this.itemsPrice < this.initializeService.initializeParams.restaurant.delivery.freeAbove) {
-      return (Math.floor(this.address.distanceInKm) + 1) * this.deliveryCharge
+      let deliveryCharge = (Math.floor(this.address.distanceInKm) + 1) * this.deliveryCharge
+      this.cartParams.deliveryCharge = deliveryCharge
+      this.setCartParams.emit(this.cartParams)
+      return deliveryCharge
     }
     return 0
   }
 
   getTotalPayable() {
     let payable = this.itemsPrice + this.getDeliveryCharge()
-    this.setCartAmount.emit(payable)
+    this.cartParams.amount = payable
+    this.setCartParams.emit(this.cartParams)
     return payable
   }
 
+}
+
+export interface CartParams {
+  amount?: number;
+  discount?: number;
+  cartAmount?: number;
+  deliveryCharge?: number;
+  orderDetail?: FoodOrderDetailInterface
 }

@@ -25,7 +25,8 @@ export interface CuisineInterface {
     description: string;
     availableNow: boolean;
     tags: string[];
-    cost: number
+    cost?: number;    
+    isRestaurantOpen?: number;
 }
 
 export interface MenuSectionInterface {

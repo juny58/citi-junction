@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 declare var google
 
@@ -7,24 +7,34 @@ declare var google
   templateUrl: './cart-select-address.component.html',
   styleUrls: ['./cart-select-address.component.scss'],
 })
-export class CartSelectAddressComponent implements OnInit {
+export class CartSelectAddressComponent implements OnInit, OnChanges {
 
   @ViewChild('map', { read: ElementRef, static: true }) mapRef: ElementRef
-  @Output() selectedAddress: EventEmitter<EmittingAddress> = new EventEmitter()
   @Input() restaurantCoordinates: any
+  @Input() drawMap: boolean
+  @Output() selectedAddress: EventEmitter<EmittingAddress> = new EventEmitter()
 
-  address: RestaurantAddress = {
+  address: EmittingAddress = {
     details: null,
     coordinates: {
       lat: null,
       long: null
-    }
+    },
+    distanceInKm: null,
+    distanceText: null,
+    landmark: null
   }
 
   constructor(private geolocation: Geolocation) { }
 
   ngOnInit() {
     this.drawMarker()
+  }
+
+  ngOnChanges() {
+    // if (this.drawMap) {
+    //   this.drawMarker()
+    // }
   }
 
   async drawMarker() {
@@ -89,9 +99,10 @@ export class CartSelectAddressComponent implements OnInit {
         travelMode: 'DRIVING'
       }, (d) => {
         //console.log(d)
-        let obj = Object.assign(this.address, { distanceInKm: d.rows[0].elements[0].distance.value / 1000, text: d.rows[0].elements[0].distance.text })
-        this.selectedAddress.emit(obj)
+        this.address.distanceInKm = d.rows[0].elements[0].distance.value / 1000
+        this.address.distanceText = d.rows[0].elements[0].distance.text
         //console.log(obj)
+        this.selectedAddress.emit(this.address)
       });
   }
 
@@ -100,12 +111,13 @@ export class CartSelectAddressComponent implements OnInit {
 export interface RestaurantAddress {
   details: string;
   coordinates: {
-    lat: string;
-    long: string
+    lat: number;
+    long: number
   }
 }
 
 export interface EmittingAddress extends RestaurantAddress {
   distanceInKm: number;
-  text: string
+  distanceText: string;
+  landmark: string;
 }

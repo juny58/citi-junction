@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 declare const RazorpayCheckout
 
 @Injectable({
@@ -6,14 +8,14 @@ declare const RazorpayCheckout
 })
 export class RazorPayService {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   proceedPaymentWithRazorpay(variableOptions: RazorpayVariableOptions): Promise<any> {
     return new Promise((resolve, reject) => {
       let staticOptions = {
-        image: 'https://i.imgur.com/3g7nmJC.png',
+        image: 'https://www.citijunction.com/assets/cj.png',
         currency: 'INR',
-        key: 'rzp_test_sboYrXr4mQ36l5',
+        key: environment.payment.razorPay.key_id,
         name: 'Citi Junction'
       }
 
@@ -32,15 +34,28 @@ export class RazorPayService {
       RazorpayCheckout.open(options)
     })
   }
+
+  veryfyPayment(paymentInfo: RazorPayPaymentResponse) {
+    return this.httpClient.post<RazorPayPaymentResponse>(environment.apiPath + "/api/payment/verify-payment", paymentInfo)
+  }
 }
 
 export interface RazorpayVariableOptions {
   description: string;
   order_id?: string;
   amount: string;
+  name?: string;
+  image?: string;
   prefill: {
     email: string;
-    contact: string;
+    contact?: string;
     name: string
   }
+}
+
+export interface RazorPayPaymentResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+  _id: string
 }

@@ -1,0 +1,34 @@
+.success-area {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+ion-header::after {
+    display: none;
+}
+ion-title {
+    font-size: 16px;
+}
+
+.success-text {
+    font-weight: 900;
+    font-size: 22px;
+    color: #6fab3b;
+    animation-name: success;
+    animation-duration: 2.5s;
+    animation-iteration-count: 1;
+}
+
+.delivery-info {
+    font-size: 16px;
+    color: #111;
+    ion-icon {
+        font-size: 25px;
+    }
+}
+
+@keyframes success {
+    from { color: rgba(111, 171, 59, .4);}
+    to { color: rgba(111, 171, 59, 1);}
+}

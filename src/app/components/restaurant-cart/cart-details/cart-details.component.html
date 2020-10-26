@@ -72,11 +72,15 @@
       </div>
 
       <div class="ion-padding pb-0">
-        <b>Distance: {{address.text}}</b>
+        Distance: <b>{{address.distanceText}}</b>
       </div>
 
-      <div class="small-font">
-        <ion-button (click)="changeAddress()" fill='clear' color="warning">
+      <div class="ion-padding pb-0">
+        Landmark: <b>{{address.landmark}}</b>
+      </div>
+
+      <div class="small-font ion-text-end">
+        <ion-button (click)="changeAddress()" fill='clear' color="orange">
           Change Address
         </ion-button>
       </div>

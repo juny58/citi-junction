@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color='light'>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/restaurants"></ion-back-button>
+    </ion-buttons>
+    <ion-searchbar slot="end" placeholder="Search for a dish or restaurant"
+      (ionChange)="searchTyped($event.target.value)" class="ion-text-start" mode='ios'>
+    </ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCart()">
+        <ion-icon slot="icon-only" color=danger class="cart-icon" src="assets/images/plate.svg"></ion-icon>
+        <span class="cart-count">{{restaurantService.cartItemCount || ''}}</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="!searchingNow">
+    <ion-list lines="full">
+      <ion-item *ngFor="let cuisine of cuisines; let i = index">
+        <ion-label>
+          <div>{{cuisine.title}}</div>
+          <div>
+            <ion-text class="small-font" color="medium">{{currency + cuisine.price}}</ion-text>
+          </div>
+          <div>
+            <ion-text class="small-font">Dished By : </ion-text>
+            <ion-text class="small-font" color="women">{{cuisine.restaurantName}}</ion-text>
+          </div>
+        </ion-label>
+        <ion-button [disabled]="!cuisine.isRestaurantOpen" style="width: 60px;" color="mat-blue">
+          <span *ngIf="loadingRestaurantIndex != i" (click)="addtoCart(cuisine, cuisine.restaurantId, i)">Add</span>
+          <ion-spinner style="width: 16px;" *ngIf="loadingRestaurantIndex == i" color="white">
+          </ion-spinner>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <h3 class="ion-padding ion-text-center" *ngIf="showNoDataMessage">
+      No items found.
+    </h3>
+
+    <ion-infinite-scroll (ionInfinite)="loadMoreData($event)">
+      <ion-infinite-scroll-content loadingText="Loading...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ng-container>
+
+  <app-skeleton-text *ngIf="searchingNow"></app-skeleton-text>
+</ion-content>

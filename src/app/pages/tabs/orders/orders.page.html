@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot='start'>
+      <ion-button>
+        <ion-icon color='danger' slot="icon-only" name="cart"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>My Orders</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-skeleton-text *ngIf="!orders.length"></app-skeleton-text>
+  <ion-card routerLink="/order-detail" [queryParams]="{'_id': order._id}" class="ion-padding"
+    *ngFor="let order of orders">
+    <div>
+      <ion-icon color="success" class="align-icon mr-3" name="receipt"></ion-icon>
+      Order ID: <ion-text color="success">{{order._id}}</ion-text>
+    </div>
+
+    <div class="mt-2">
+      <ion-text [color]="colorJson[order.orderStatus]">{{order.orderStatus}}</ion-text>
+    </div>
+    <div class="mt-2">
+      <ion-text class="small-font" color="mat-blue">{{order.orderedAt | date: 'medium'}}</ion-text>
+    </div>
+  </ion-card>
+</ion-content>

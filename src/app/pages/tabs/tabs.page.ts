@@ -45,12 +45,12 @@ export class TabsPage {
       available: true
     },
     {
-      name: "Settings",
-      route: 'settings',
-      icon: 'settings',
+      name: "Orders",
+      route: 'orders',
+      icon: 'receipt',
       isActive: false,
       slot: SlotEnum.both,
-      available: false
+      available: true
     }
   ]
 

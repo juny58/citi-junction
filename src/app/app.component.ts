@@ -8,6 +8,8 @@ import { WidthService } from './services/width/width.service';
 import { SearchService } from './services/search/search.service';
 import { RouterService } from './services/router/router.service';
 import { InitializeService } from './services/initialize/initialize.service';
+import { PushService } from './services/push/push.service';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -56,7 +58,9 @@ export class AppComponent implements OnInit {
     public widthService: WidthService,
     public searchService: SearchService,
     public routerService: RouterService,
-    public initializeService: InitializeService
+    public initializeService: InitializeService,
+    private pushService: PushService,
+    private authService: AuthService
   ) {
     this.initializeApp();
   }
@@ -68,7 +72,7 @@ export class AppComponent implements OnInit {
     })
 
     this.platform.backButton.subscribe(() => {
-      if (this.router.url == "/app/home") {
+      if (this.router.url.startsWith('/app') || this.router.url == "/auth") {
         navigator['app'].exitApp()
       }
     })
@@ -80,8 +84,10 @@ export class AppComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.pushService.initializePush()
       this.statusBar.backgroundColorByHexString("#eb445a");
       this.splashScreen.hide();
+      this.initializeService.getAppVersion()
     });
   }
 

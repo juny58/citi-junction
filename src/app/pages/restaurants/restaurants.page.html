@@ -1,12 +1,12 @@
 <ion-header *ngIf="widthService.screenWidth < 768" class="page-header">
-  <ion-toolbar color="light" [hidden]="shouldShowSearchbar">
+  <ion-toolbar color="light">
     <ion-buttons slot="start">
       <ion-back-button defaultHref='/app/home'></ion-back-button>
     </ion-buttons>
     <img slot=start class="small-logo no-ion-margin-left" src="assets/cj.png" alt="">
 
     <ion-buttons slot=end>
-      <ion-button (click)="showSearchbar()">
+      <ion-button routerLink="/cuisine-search">
         <ion-icon name="search" slot="icon-only"></ion-icon>
       </ion-button>
       <ion-button (click)="openCart()">
@@ -14,16 +14,6 @@
         <span class="cart-count">{{restaurantService.cartItemCount || ''}}</span>
       </ion-button>
     </ion-buttons>
-  </ion-toolbar>
-
-  <ion-toolbar [hidden]="!shouldShowSearchbar">
-    <ion-searchbar placeholder="Search for a dish or restaurant" #searchbar (ionBlur)="removeSearchbar(false)"
-      (ionChange)="searchTyped($event.target.value)" mode='ios'>
-    </ion-searchbar>
-
-    <!-- <ion-button fill='clear' color='dark' slot="end" (click)="showSearchbar()">
-      <ion-icon name="close" slot="icon-only"></ion-icon>
-    </ion-button> -->
   </ion-toolbar>
 </ion-header>
 

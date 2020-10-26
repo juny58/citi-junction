@@ -1,0 +1,13 @@
+<ion-list *ngIf="order" lines="none">
+  <ion-item *ngFor="let item of order.orderDetail.cuisines">
+    <ion-label>
+      <div class="mb-1">{{item.cuisine.name}}</div>
+      <div class="mb-1" *ngIf="item.addOn">
+        <ion-text color="medium">{{item.addOn.name}}</ion-text>
+      </div>
+      <div>
+        <ion-text class="small-font" color="orange">Items: {{item.items}}</ion-text>
+      </div>
+    </ion-label>
+  </ion-item>
+</ion-list>

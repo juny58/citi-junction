@@ -1,0 +1,35 @@
+<div *ngIf="order" class="ion-padding">
+    <div *ngIf="order.orderStatus == 'Processing'" class="ion-padding mt-2 order-status-div">
+        <div class="mb-1">
+            <ion-icon color="mat-blue" class="align-icon" name="time-outline"></ion-icon>
+            &nbsp;
+            <ion-text color="mat-blue">Processing</ion-text>
+        </div>
+        <ion-text class="small-font" color="medium">Awaiting confirmation</ion-text>
+    </div>
+
+    <ion-item *ngIf="order.orderStatus == 'Preparing Food'" lines='none' class="mt-2 order-status-div">
+        <ion-avatar slot="start">
+            <img src="assets/images/preparing-food.gif" alt="">
+        </ion-avatar>
+        <ion-label>Preparing Food</ion-label>
+    </ion-item>
+
+    <div *ngIf="order.orderStatus == 'Cancelled & Refund initiated'" class="ion-padding mt-2 order-status-div">
+        <ion-text color="warning">Cancelled & Refund initiated</ion-text>
+    </div>
+
+    <div *ngIf="order.orderStatus == 'Refunded'" class="ion-padding mt-2 order-status-div">
+        <ion-text color="danger">Refunded</ion-text>
+    </div>
+
+    <ion-item *ngIf="order.orderStatus == 'Picked Up'" lines='none' class="mt-2 order-status-div">
+        <ion-icon src="assets/home-icons/delivery.svg" slot="start"> </ion-icon>
+        <ion-label color="kola-pata">Picked Up</ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="order.orderStatus == 'Delivered'" lines='none' class="mt-2 order-status-div">
+        <ion-icon color="kola-pata" name="checkmark-done" slot="start"> </ion-icon>
+        <ion-label color="kola-pata">Delivered</ion-label>
+    </ion-item>
+</div>

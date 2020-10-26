@@ -1,0 +1,67 @@
+<ion-content class="ion-padding">
+  <div>
+    <img class="logo" src="assets/cj.png" alt="">
+  </div>
+  <div class="ion-padding ion-text-center">
+    <div class="welcome-text">
+      <ion-text color="dark">Welcome To</ion-text>
+    </div>
+    <div class="cj-title">
+      <ion-text color="danger">Citi Junction</ion-text>
+    </div>
+  </div>
+
+  <div class="ion-padding" [hidden]="section == 'login'">
+    <div class="mb-3 input-field">
+      <ion-input autocomplete='on' [(ngModel)]="user.name" placeholder="Name"></ion-input>
+    </div>
+
+    <div class="mb-3 input-field">
+      <ion-input autocomplete='on' [(ngModel)]="user.email" placeholder="Email"></ion-input>
+    </div>
+
+    <div class="mb-3 input-field">
+      <ion-input autocomplete='on' [(ngModel)]="user.password" placeholder="Password | Min Length 8"></ion-input>
+    </div>
+
+    <div class="mb-3 input-field">
+      <ion-input autocomplete='on' [(ngModel)]="user.phone" placeholder="Phone"></ion-input>
+    </div>
+
+    <div (click)="clickRegister()">
+      <ion-button [disabled]="checkRegisterNow()" (click)="registerNow()" class="ion-no-margin" expand="full"
+        color="danger">Register</ion-button>
+    </div>
+    <div class="mt-3 ion-text-center" (click)="section = 'login'">
+      Already a user? | <ion-text color="danger">Login</ion-text>
+    </div>
+
+    <div *ngIf="hasRegisterButtonPressed" class="mt-2 ion-text-center text-danger">
+        {{getIncompleteMessage()}}
+    </div>
+  </div>
+
+  <div class="ion-padding" [hidden]="section == 'register'">
+    <div class="mb-3 input-field">
+      <ion-input autocomplete='on' [(ngModel)]="user.email" placeholder="Email"></ion-input>
+    </div>
+
+    <div class="mb-3 input-field">
+      <ion-input autocomplete='on' [(ngModel)]="user.password" placeholder="Password | Min Length 8"></ion-input>
+    </div>
+
+    <div>
+      <ion-button [disabled]="checkLogin()" (click)="login()" class="ion-no-margin" expand="full" color="danger">
+        Login</ion-button>
+    </div>
+    <div class="mt-3 ion-text-center" (click)="section = 'register'">
+      New user? | <ion-text color="danger">Register</ion-text>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loader-container">
+    <div class="loader">
+      <ion-spinner color='mat-blue'></ion-spinner>
+    </div>
+  </div>
+</ion-content>

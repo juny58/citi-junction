@@ -17,11 +17,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'settings',
+        path: 'orders',
         children: [
           {
             path: '',
-            loadChildren: () => import('./settings/settings.module').then(m => m.SettingsPageModule)
+            loadChildren: () => import('./orders/orders.module').then(m => m.OrdersPageModule)
           }
         ]
       },
@@ -63,6 +63,10 @@ const routes: Routes = [
     path: '',
     redirectTo: '/app/home',
     pathMatch: 'full'
+  },
+  {
+    path: 'orders',
+    loadChildren: () => import('./orders/orders.module').then(m => m.OrdersPageModule)
   }
 ];
 

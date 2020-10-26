@@ -1,15 +1,3 @@
-export interface FoodOrder {
-    cuisines: IndividualCuisineOrder[];
-    orderedAt: number;
-    orderedBy: FoodOrderedByInterface;
-    totalAmount: number;
-    tax: number;
-    discount: number;
-    deliveredAt: number;
-    deliveryCharge: number;
-    restaurant: FoodOrderedFromRestaurantInterface
-}
-
 export interface IndividualCuisineOrder {
     _id?: string;
     cuisine: {
@@ -30,7 +18,13 @@ export interface FoodOrderedByInterface {
     email: string;
     phone: string;
     address: string;
-    coordinates: string[]
+    coordinates: {
+        lat: number;
+        long: number
+    };
+    landmark: string;
+    distanceInKm: number;
+    pushToken: string
 }
 
 export interface FoodOrderedFromRestaurantInterface {

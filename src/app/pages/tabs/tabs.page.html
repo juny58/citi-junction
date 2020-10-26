@@ -7,7 +7,7 @@
       <ion-icon color='danger' [hidden]="tab.isActive" [name]="tab.icon + '-outline'"></ion-icon>
       <ion-label [color]="tab.isActive ? 'danger': 'dark'">{{tab.name}}</ion-label>
     </ion-tab-button>
-    
+
   </ion-tab-bar>
 
   <ion-footer [hidden]="currentWindowWidth < 768">
@@ -16,6 +16,9 @@
       <ion-text class="ml-3">|</ion-text>
       <ion-text routerLink="/privacy-policy" color="danger" class="ml-3 hover-cursor">Privacy Policy</ion-text>
       <ion-text routerLink="/terms-condition" color="danger" class="ml-3 hover-cursor">T&C</ion-text>
+      <ion-text routerLink="/about-us" color="danger" class="ml-3 hover-cursor">About Us</ion-text>
+      <ion-text routerLink="/contact-us" color="danger" class="ml-3 hover-cursor">Contact Us</ion-text>
+      <ion-text routerLink="/refund" color="danger" class="ml-3 hover-cursor">Refund Policy</ion-text>
     </div>
   </ion-footer>
 
