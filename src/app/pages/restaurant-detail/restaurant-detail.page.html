@@ -45,7 +45,7 @@
         <!-- <ion-thumbnail class="cuisine-img shadow-sm" slot="end">
           <ion-img [src]="cuisine.img"></ion-img>
         </ion-thumbnail> -->
-        <ion-button [disabled]="!cuisine.isRestaurantOpen" (click)="addFoodToOrder(cuisine)" color="mat-blue">Add</ion-button>
+        <ion-button [disabled]="!cuisine.isRestaurantOpen || !cuisine.availableNow" (click)="addFoodToOrder(cuisine)" color="mat-blue">Add</ion-button>
       </ion-item>
     </ion-list>
   </ng-container>
@@ -53,5 +53,11 @@
   <ng-container *ngIf="!cuisinesLoaded">
     <app-skeleton-text></app-skeleton-text>
   </ng-container>
+
+  <div *ngIf="isLoadingApi" class="loader-container">
+    <div class="loader">
+      <ion-spinner color="mat-blue"></ion-spinner>
+    </div>
+  </div>
 
 </ion-content>

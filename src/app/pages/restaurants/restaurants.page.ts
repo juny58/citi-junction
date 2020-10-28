@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { WidthService } from 'src/app/services/width/width.service';
 import { SearchService } from 'src/app/services/search/search.service';
-import { IonContent, IonInfiniteScroll, IonSearchbar, ModalController } from '@ionic/angular';
+import { IonContent, IonInfiniteScroll, IonSearchbar, ModalController, ToastController } from '@ionic/angular';
 import { RestaurantsService } from './restaurants.service';
 import { RestaurantCategories, RestaurantInterface } from './restaurants.interface';
 import { environment } from 'src/environments/environment';
@@ -32,9 +32,12 @@ export class RestaurantsPage implements OnInit {
   isLoading = true
   apiParams: any = {
     limit: 10
-  }
+  };
+  showSlides
+  isLoadingApi
+  alreadyCalledCart
 
-  constructor(private authService: AuthService, private initializeService: InitializeService, private modalController: ModalController, public restaurantDetailService: RestaurantDetailService, public widthService: WidthService, public searchService: SearchService, public restaurantService: RestaurantsService) { }
+  constructor(private toastController: ToastController, private authService: AuthService, private initializeService: InitializeService, private modalController: ModalController, public restaurantDetailService: RestaurantDetailService, public widthService: WidthService, public searchService: SearchService, public restaurantService: RestaurantsService) { }
 
   ngOnInit() {
     this.getCategories()
@@ -84,13 +87,32 @@ export class RestaurantsPage implements OnInit {
   }
 
   async openCart() {
-    if (this.authService.user.name && this.restaurantService.orderDetail.cuisines.length && this.initializeService.initializeParams) {
+    if (this.alreadyCalledCart) {
+      return
+    }
+    this.isLoadingApi = true
+    this.alreadyCalledCart = true
+    if (!this.authService.user.name) {
+      await this.authService.getCurrentUser()
+    }
+    if (!this.initializeService.initializeParams) {
+      await this.initializeService.getInitializingParams()
+    }
+    this.isLoadingApi = false
+    if (this.restaurantService.orderDetail.cuisines.length) {
       let modal = await this.modalController.create({
         component: RestaurantCartComponent
       })
-
       modal.present()
+    } else {
+      let toast = await this.toastController.create({
+        message: "No food item added yet",
+        duration: 2000,
+        position: 'top'
+      })
+      toast.present()
     }
+    this.alreadyCalledCart = false
   }
 
   loadMoreData(ev) {
@@ -103,6 +125,10 @@ export class RestaurantsPage implements OnInit {
         ev.target.disabled = true
       }
     })
+  }
+
+  ionViewDidEnter() {
+    this.showSlides = true
   }
 
 }

@@ -29,7 +29,7 @@
             <ion-text class="small-font" color="women">{{cuisine.restaurantName}}</ion-text>
           </div>
         </ion-label>
-        <ion-button [disabled]="!cuisine.isRestaurantOpen" style="width: 60px;" color="mat-blue">
+        <ion-button [disabled]="!cuisine.isRestaurantOpen && !cuisine.availableNow" style="width: 60px;" color="mat-blue">
           <span *ngIf="loadingRestaurantIndex != i" (click)="addtoCart(cuisine, cuisine.restaurantId, i)">Add</span>
           <ion-spinner style="width: 16px;" *ngIf="loadingRestaurantIndex == i" color="white">
           </ion-spinner>

@@ -23,19 +23,17 @@ export class PushService {
   constructor(private push: Push, private authService: AuthService, private routerService: RouterService) { }
 
   initializePush() {
-    this.pushObject = this.push.init(this.options);
-    this.pushObject.on('notification').subscribe((notification: any) => {
-      //alert(JSON.stringify(notification))
-      if (notification.additionalData.url) {
-        this.routerService.doFirstRouting(notification.additionalData.url)
-      }
-    });
 
     this.push.hasPermission()
       .then((res: any) => {
-
         if (res.isEnabled) {
-
+          this.pushObject = this.push.init(this.options);
+          this.pushObject.on('notification').subscribe((notification: any) => {
+            //alert(JSON.stringify(notification))
+            if (notification.additionalData.url) {
+              this.routerService.doFirstRouting(notification.additionalData.url)
+            }
+          });
           this.pushObject.on('registration').subscribe((registration: any) => {
             this.authService.user.pushToken = registration.registrationId
             if (this.authService.user._id) {

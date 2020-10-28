@@ -13,19 +13,19 @@
 
   <div class="ion-padding" [hidden]="section == 'login'">
     <div class="mb-3 input-field">
-      <ion-input autocomplete='on' [(ngModel)]="user.name" placeholder="Name"></ion-input>
+      <ion-input [(ngModel)]="user.name" placeholder="Name"></ion-input>
     </div>
 
     <div class="mb-3 input-field">
-      <ion-input autocomplete='on' [(ngModel)]="user.email" placeholder="Email"></ion-input>
+      <ion-input [(ngModel)]="user.email" placeholder="Email"></ion-input>
     </div>
 
     <div class="mb-3 input-field">
-      <ion-input autocomplete='on' [(ngModel)]="user.password" placeholder="Password | Min Length 8"></ion-input>
+      <ion-input [(ngModel)]="user.password" placeholder="Password | Min Length 8"></ion-input>
     </div>
 
     <div class="mb-3 input-field">
-      <ion-input autocomplete='on' [(ngModel)]="user.phone" placeholder="Phone"></ion-input>
+      <ion-input [(ngModel)]="user.phone" placeholder="Phone"></ion-input>
     </div>
 
     <div (click)="clickRegister()">
@@ -43,11 +43,11 @@
 
   <div class="ion-padding" [hidden]="section == 'register'">
     <div class="mb-3 input-field">
-      <ion-input autocomplete='on' [(ngModel)]="user.email" placeholder="Email"></ion-input>
+      <ion-input [(ngModel)]="user.email" placeholder="Email"></ion-input>
     </div>
 
     <div class="mb-3 input-field">
-      <ion-input autocomplete='on' [(ngModel)]="user.password" placeholder="Password | Min Length 8"></ion-input>
+      <ion-input [(ngModel)]="user.password" placeholder="Password | Min Length 8"></ion-input>
     </div>
 
     <div>
@@ -58,10 +58,16 @@
       New user? | <ion-text color="danger">Register</ion-text>
     </div>
   </div>
+    
+  <div class="mt-2 ion-text-center">
+    <a style="text-decoration: none;" href="tel:+918478093903s">
+      <ion-text color="danger">Need Help</ion-text><ion-icon class="align-icon" color='danger' name="help"></ion-icon>
+    </a>
+  </div>
 
   <div *ngIf="isLoading" class="loader-container">
     <div class="loader">
-      <ion-spinner color='mat-blue'></ion-spinner>
+      <ion-spinner color='danger'></ion-spinner>
     </div>
   </div>
 </ion-content>

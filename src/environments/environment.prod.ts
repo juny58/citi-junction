@@ -21,6 +21,6 @@ export const environment = {
     appId: "XBJ5SHF0DL"
   },
   payment: {
-    razorPay: razorPay.test
+    razorPay: razorPay.live
   }
 };

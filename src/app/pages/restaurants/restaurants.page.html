@@ -21,7 +21,7 @@
   <div class="mb-2">
     <b class="large-font">Category</b>: <ion-text color="medium">{{selectedCategory}}</ion-text>
   </div>
-  <ion-slides class="shadow-sm bg-light food-categories p-2" [options]="slideOptions">
+  <ion-slides *ngIf="showSlides" class="shadow-sm bg-light food-categories p-2" [options]="slideOptions">
     <ion-slide *ngFor="let category of categories">
       <div>
         <img (click)="selectCategory(category)" src="assets/restaurants/food-categories/{{category}}.png" alt="">
@@ -51,7 +51,10 @@
     <ion-list class="ion-no-padding" lines='none'>
       <ion-item (click)="setRestaurantForDetailPage(restaurant)" [routerLink]="'/restaurant-detail/' + restaurant._id"
         class="ion-no-padding pb-2" *ngFor="let restaurant of restaurants">
-        <img class="restaurant-img mr-3 shadow-sm" [src]="restaurant.img">
+        <div class="restaurant-img mr-3 shadow-sm">
+          <img [src]="restaurant.img">
+          <div *ngIf="!restaurant.openNow" class="not-available"></div>
+        </div>
         <ion-label>
           <div class="restaurant-title retaurant-detail-text">
             {{restaurant.title}}
@@ -87,4 +90,10 @@
     <ion-infinite-scroll-content loadingText="Loading...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
+
+  <div *ngIf="isLoadingApi" class="loader-container">
+    <div class="loader">
+      <ion-spinner color="mat-blue"></ion-spinner>
+    </div>
+  </div>
 </ion-content>

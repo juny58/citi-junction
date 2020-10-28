@@ -27,6 +27,17 @@
       </ion-item>
     </ion-list>
 
+    <ion-grid class="mt-2 mb-1 bg-white">
+      <ion-row class="ion-align-items-center">
+        <ion-col>
+          <ion-text style="font-size: small;" color="medium">Want to clear cart?</ion-text>
+        </ion-col>
+        <ion-col size='auto'>
+          <ion-button (click)="clearCart()" size='small' color="danger" class="ml-3">Clear Cart</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
     <ion-list class="mt-2 bill-details" lines='none'>
       <ion-item>
         <ion-label>
@@ -80,7 +91,7 @@
       </div>
 
       <div class="small-font ion-text-end">
-        <ion-button (click)="changeAddress()" fill='clear' color="orange">
+        <ion-button (click)="changeAddress()" fill='clear' color="mat-blue">
           Change Address
         </ion-button>
       </div>

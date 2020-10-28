@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { LocalstorageService, LocalStorageValues } from '../localstorage/localstorage.service';
 
@@ -20,14 +20,14 @@ export class AuthService {
     savedAddresses: []
   }
 
-  constructor(private httpClient: HttpClient, private localStorageService: LocalstorageService) { }
+  constructor(private zone: NgZone, private httpClient: HttpClient, private localStorageService: LocalstorageService) { }
 
   getUserById(_id?: string) {
     if (_id == undefined) {
       _id = localStorage.getItem(LocalStorageValues.userId)
     }
     this.httpClient.get<UserInterface>(environment.apiPath + "/api/users/get-user-by-id", { params: { _id } }).subscribe(data => {
-      this.user = data
+      this.zone.run(() => this.user = data)
     })
   }
 
@@ -39,7 +39,7 @@ export class AuthService {
         let _id = localStorage.getItem(LocalStorageValues.userId)
 
         this.httpClient.get<UserInterface>(environment.apiPath + "/api/users/get-user-by-id", { params: { _id } }).subscribe(data => {
-          this.user = data
+          this.zone.run(() => this.user = data)
           resolve()
         })
       }

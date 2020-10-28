@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { FoodOrderInterface, FoodOrderStatusEnum } from '../tabs/orders/orders.interface';
 import { OrderDetailService } from './order-detail.service';
@@ -17,7 +17,7 @@ export class OrderDetailPage implements OnInit {
   currency = environment.currency
   orderStatusEnum = FoodOrderStatusEnum
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private orderDetailService: OrderDetailService) { }
+  constructor(private activatedRoute: ActivatedRoute, private orderDetailService: OrderDetailService) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(d => {

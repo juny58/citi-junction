@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone, OnInit } from '@angular/core';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { IndividualCuisineOrder } from '../restaurant-detail/restaurant-detail.interface';
 import { FoodOrderDetailInterface } from '../tabs/orders/orders.interface';
@@ -23,7 +23,7 @@ export class RestaurantsService implements OnInit {
   cartItemCount = 0
   currency = environment.currency
 
-  constructor(private alertController: AlertController, private httpClient: HttpClient, private zone: NgZone, private actionSheetController: ActionSheetController) {
+  constructor(private toastController: ToastController, private alertController: AlertController, private httpClient: HttpClient, private zone: NgZone, private actionSheetController: ActionSheetController) {
     this.orderDetail.cuisines.forEach(c => {
       zone.run(() => this.cartItemCount += c.items)
     })
@@ -40,7 +40,7 @@ export class RestaurantsService implements OnInit {
   }
 
   getRestaurant(_id: any) {
-    return this.httpClient.get<RestaurantInterface>(environment.apiPath + "/api/restaurants/get-restaurant", { params: {_id} })
+    return this.httpClient.get<RestaurantInterface>(environment.apiPath + "/api/restaurants/get-restaurant", { params: { _id } })
   }
 
   updateCart(n?: number) {
@@ -52,7 +52,6 @@ export class RestaurantsService implements OnInit {
     if (!this.cartItemCount) {
       this.resetCart()
     }
-    localStorage.setItem('cart', JSON.stringify(this.orderDetail))
     // console.log(this.orderDetail)
   }
 
@@ -69,9 +68,10 @@ export class RestaurantsService implements OnInit {
       }
     }
     this.cartItemCount = 0
+    localStorage.setItem('cart', JSON.stringify(this.orderDetail))
   }
 
-  addFoodToOrder(cuisine: CuisineInterface, restaurant: RestaurantInterface) {
+  async addFoodToOrder(cuisine: CuisineInterface, restaurant: RestaurantInterface) {
     //console.log(cuisine)
 
     let isActionSheetButtonPressed = false
@@ -84,6 +84,7 @@ export class RestaurantsService implements OnInit {
           // increase number
           this.orderDetail.cuisines[foundCuisineIndex].items += 1
           this.updateCart()
+          this.showAddedToCartToast()
         } else {
           // push
           let orderCuisine: IndividualCuisineOrder = {
@@ -104,8 +105,9 @@ export class RestaurantsService implements OnInit {
             }
             this.orderDetail.cuisines.push(orderCuisine)
             this.updateCart()
+            this.showAddedToCartToast()
           } else {
-            if (this.orderDetail.restaurant._id != restaurant._id) {
+            if (this.orderDetail.restaurant._id && this.orderDetail.restaurant._id != restaurant._id) {
               let shouldRemoveOldFoodCart = await this.removeOldFoodCart()
               if (shouldRemoveOldFoodCart) {
                 this.orderDetail.restaurant = {
@@ -115,10 +117,12 @@ export class RestaurantsService implements OnInit {
                 }
                 this.orderDetail.cuisines.push(orderCuisine)
                 this.updateCart()
+                this.showAddedToCartToast()
               }
             } else {
               this.orderDetail.cuisines.push(orderCuisine)
               this.updateCart()
+              this.showAddedToCartToast()
             }
           }
         }
@@ -128,6 +132,7 @@ export class RestaurantsService implements OnInit {
           // increase number
           this.orderDetail.cuisines[foundCuisineIndex].items += 1
           this.updateCart()
+          this.showAddedToCartToast()
         } else {
           // push
           let orderCuisine: IndividualCuisineOrder = {
@@ -148,8 +153,9 @@ export class RestaurantsService implements OnInit {
             }
             this.orderDetail.cuisines.push(orderCuisine)
             this.updateCart()
+            this.showAddedToCartToast()
           } else {
-            if (this.orderDetail.restaurant._id != restaurant._id) {
+            if (this.orderDetail.restaurant._id && this.orderDetail.restaurant._id != restaurant._id) {
               let shouldRemoveOldFoodCart = await this.removeOldFoodCart()
               if (shouldRemoveOldFoodCart) {
                 this.orderDetail.restaurant = {
@@ -159,10 +165,12 @@ export class RestaurantsService implements OnInit {
                 }
                 this.orderDetail.cuisines.push(orderCuisine)
                 this.updateCart()
+                this.showAddedToCartToast()
               }
             } else {
               this.orderDetail.cuisines.push(orderCuisine)
               this.updateCart()
+              this.showAddedToCartToast()
             }
           }
         }
@@ -177,6 +185,7 @@ export class RestaurantsService implements OnInit {
         // increase number
         this.orderDetail.cuisines[foundCuisineIndex].items += 1
         this.updateCart()
+        this.showAddedToCartToast()
       } else {
         // push
         let orderCuisine: IndividualCuisineOrder = {
@@ -196,8 +205,9 @@ export class RestaurantsService implements OnInit {
           }
           this.orderDetail.cuisines.push(orderCuisine)
           this.updateCart()
+          this.showAddedToCartToast()
         } else {
-          if (this.orderDetail.restaurant._id != restaurant._id) {
+          if (this.orderDetail.restaurant._id && this.orderDetail.restaurant._id != restaurant._id) {
             let shouldRemoveOldFoodCart = await this.removeOldFoodCart()
             if (shouldRemoveOldFoodCart) {
               this.orderDetail.restaurant = {
@@ -207,10 +217,12 @@ export class RestaurantsService implements OnInit {
               }
               this.orderDetail.cuisines.push(orderCuisine)
               this.updateCart()
+              this.showAddedToCartToast()
             }
           } else {
             this.orderDetail.cuisines.push(orderCuisine)
             this.updateCart()
+            this.showAddedToCartToast()
           }
         }
 
@@ -233,7 +245,8 @@ export class RestaurantsService implements OnInit {
     if (cuisine.addOnPrice.length) {
       this.actionSheetController.create({
         header: "Add On",
-        buttons: createButtons()
+        buttons: createButtons(),
+        cssClass: 'addon'
       }).then(sheet => {
         sheet.present()
         sheet.onDidDismiss().then(() => {
@@ -277,5 +290,14 @@ export class RestaurantsService implements OnInit {
     return alert.onDidDismiss().then(() => {
       return returnable
     })
+  }
+
+  async showAddedToCartToast() {
+    let toast = await this.toastController.create({
+      message: "Item added to cart.",
+      cssClass: 'add-to-cart-toast',
+      duration: 2000
+    })
+    toast.present()
   }
 }

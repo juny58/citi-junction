@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonSlides, ModalController } from '@ionic/angular';
+import { AlertController, IonSlides, ModalController } from '@ionic/angular';
 import { RestaurantsService } from 'src/app/pages/restaurants/restaurants.service';
 import { FoodOrderInterface, FoodOrderStatusEnum, OrderTypeEnum } from 'src/app/pages/tabs/orders/orders.interface';
 import { OrdersService } from 'src/app/pages/tabs/orders/orders.service';
@@ -36,8 +36,9 @@ export class RestaurantCartComponent implements OnInit, AfterViewInit {
   slideIndex = 0
   cartParams: CartParams
   drawMap = false
+  showLoader = false
 
-  constructor(private router: Router, private orderService: OrdersService, private authService: AuthService, private restaurantCartService: RestaurantCartService, public initializeService: InitializeService, private razorpayService: RazorPayService, private zone: NgZone, private modalController: ModalController, public restaurantService: RestaurantsService) { }
+  constructor(private alertController: AlertController, private router: Router, private orderService: OrdersService, private authService: AuthService, private restaurantCartService: RestaurantCartService, public initializeService: InitializeService, private razorpayService: RazorPayService, private zone: NgZone, private modalController: ModalController, public restaurantService: RestaurantsService) { }
 
   ngOnInit() {
     if (this.authService.user.savedAddresses && this.authService.user.savedAddresses.length) {
@@ -136,17 +137,32 @@ export class RestaurantCartComponent implements OnInit, AfterViewInit {
       tax: 0,
       profitMargin: {
         product: this.getProductMargin(),
-        deliveryCharge: (this.cartParams.deliveryCharge / this.initializeService.initializeParams.restaurant.delivery.costPerKm) * this.initializeService.initializeParams.restaurant.delivery.deliveryAgentFeePerKm,
-        total: this.getProductMargin() + (this.cartParams.deliveryCharge / this.initializeService.initializeParams.restaurant.delivery.costPerKm) * this.initializeService.initializeParams.restaurant.delivery.deliveryAgentFeePerKm
+        deliveryCharge: this.getDeliveryMargin(),
+        total: this.getProductMargin() + this.getDeliveryMargin()
       }
     }
-    // console.log(orderObj)
+    this.showLoader = true
     this.restaurantCartService.createOrder(orderObj).subscribe(d => {
-      //console.log(d)
+      this.showLoader = true
       this.proceedToRazorPay(d)
     }, err => {
-      console.error(err)
+      this.showLoader = false
+      this.showNotAvailabilityError(err.error.message)
     })
+  }
+
+  async showNotAvailabilityError(m) {
+    let alert = await this.alertController.create({
+      header: m.header,
+      message: m.info,
+      buttons: [
+        {
+          text: "Okay",
+          cssClass: 'red-alert-btn'
+        }
+      ]
+    })
+    alert.present()
   }
 
   proceedToRazorPay(d) {
@@ -162,9 +178,11 @@ export class RestaurantCartComponent implements OnInit, AfterViewInit {
       //console.log(res)
       res._id = d._id
       //alert("SUccessfully paid " + JSON.stringify(res))
+      this.showLoader = true
       this.razorpayService.veryfyPayment(res).subscribe(() => {
         this.restaurantService.resetCart()
         this.modalController.dismiss()
+        this.showLoader = false
         this.router.navigate(['/order-detail'], { queryParams: { _id: d._id, 'order-success': true }, replaceUrl: true })
       }, err => {
         this.orderService.deleteOrder(d._id).subscribe(() => { })
@@ -183,6 +201,13 @@ export class RestaurantCartComponent implements OnInit, AfterViewInit {
       n += (c.price - c.cost) * c.items
     })
     return n
+  }
+
+  getDeliveryMargin() {
+    if (this.cartParams.cartAmount >= this.initializeService.initializeParams.restaurant.delivery.freeAbove) {
+      return 0
+    }
+    return this.cartParams.deliveryCharge - (this.cartParams.deliveryCharge / this.initializeService.initializeParams.restaurant.delivery.costPerKm) * this.initializeService.initializeParams.restaurant.delivery.deliveryAgentFeePerKm
   }
 
 }

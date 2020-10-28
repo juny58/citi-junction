@@ -75,6 +75,10 @@ export class CartDetailsComponent implements OnInit {
     return payable
   }
 
+  clearCart() {
+    this.restaurantService.resetCart()
+  }
+
 }
 
 export interface CartParams {

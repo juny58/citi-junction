@@ -118,3 +118,10 @@ ion-button {
         transform: translateX(-50%)translateY(-50%);
     }
 }
+.addon .action-sheet-title {
+    color: #ff4081
+}
+.add-to-cart-toast {
+    --background: var(--ion-color-success);
+    --color: var(--ion-color-light)
+}

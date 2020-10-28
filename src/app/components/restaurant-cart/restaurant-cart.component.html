@@ -23,6 +23,12 @@
   </ion-slides>
 </ion-content>
 
+<div style="background: rgba(0,0,0,.4);" *ngIf="showLoader" class="loader-container">
+  <div class="loader">
+    <ion-spinner></ion-spinner>
+  </div>
+</div>
+
 <ion-footer *ngIf="restaurantService.cartItemCount">
   <ion-toolbar [hidden]="slideIndex != 0"
     [color]="currentAddress.distanceInKm <= initializeService.initializeParams.restaurant.delivery.allowedDistance ? 'mat-blue' : 'light'">

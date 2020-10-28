@@ -52,7 +52,8 @@ export interface RestaurantInterface {
     rating?: number;
     createdAt?: number;
     updatedAt?: number;
-    estimationForTwo: number
+    estimationForTwo: number;
+    openNow?: boolean
 }
 
 export interface RestaurantAddress {

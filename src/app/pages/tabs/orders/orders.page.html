@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <app-skeleton-text *ngIf="!orders.length"></app-skeleton-text>
+  <app-skeleton-text *ngIf="!orders.length && isLoading"></app-skeleton-text>
   <ion-card routerLink="/order-detail" [queryParams]="{'_id': order._id}" class="ion-padding"
     *ngFor="let order of orders">
     <div>
@@ -25,4 +25,8 @@
       <ion-text class="small-font" color="mat-blue">{{order.orderedAt | date: 'medium'}}</ion-text>
     </div>
   </ion-card>
+
+  <h3 *ngIf="!isLoading && !orders.length" class="ion-text-center">
+    No active orders found.
+  </h3>
 </ion-content>

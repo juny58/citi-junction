@@ -20,6 +20,7 @@ export class OrdersPage implements OnInit {
     'Refunded': "kola-pata",
     'Completed': 'success'
   }
+  isLoading = true
 
   constructor(private ordersService: OrdersService, private authService: AuthService) { }
 
@@ -47,6 +48,7 @@ export class OrdersPage implements OnInit {
       orderBy: "orderStatus"
     }).subscribe(d => {
       console.log(d)
+      this.isLoading = false
       this.orders = d
     })
   }

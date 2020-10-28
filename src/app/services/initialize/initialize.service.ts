@@ -13,10 +13,10 @@ export class InitializeService {
   currentAppVersion: string
 
   constructor(private httpClient: HttpClient, private appVersion: AppVersion, private alertController: AlertController) {
-    this.getInitializingParams()
+    this.setInitializingParams()
   }
 
-  getInitializingParams() {
+  setInitializingParams() {
     this.httpClient.get<InitializeProperties>(environment.apiPath + "/api/auth/initialize").subscribe(d => {
       this.initializeParams = d
       // console.log(d)
@@ -27,6 +27,15 @@ export class InitializeService {
           }
         })
         .catch(err => { })
+    })
+  }
+
+  getInitializingParams() {
+    return new Promise(resolve => {
+      this.httpClient.get<InitializeProperties>(environment.apiPath + "/api/auth/initialize").subscribe(d => {
+        this.initializeParams = d;
+        resolve()
+      })
     })
   }
 
